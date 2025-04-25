@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SpecialDelivery</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #ffbf46;
+      --secondary-color: #f76e11;
+      --bg-color: #fff8e1;
+      --text-color: #333;
+      --dark-orange: #d95c00;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transform: scaleY(1.1); /* Augmente l'échelle verticale (longueur) */
+      transform-origin: top; /* Conserve l'alignement en haut */
+    }
+
+    header {
+      background-color: var(--primary-color);
+      padding: 2rem 0 2rem 0;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 2rem;
+    }
+
+    nav {
+      margin-top: 0.5rem;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--secondary-color);
+    }
+
+    .highlight-box {
+      background-color: var(--dark-orange);
+      color: white;
+      margin: 40px auto 20px auto;
+      padding: 15px;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 300;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #unity-container {
+      width: 100%;
+      height: 0; /* Débute fermé */
+      background: #d9e26b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: height 1s ease-in-out; /* Animation de l'ouverture */
+      margin-top: 100px; /* Augmente l'espace en haut pour déplacer la fenêtre vers le bas */
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 960px;
+      height: auto;
+      aspect-ratio: 16 / 10; /* ratio standard 960x600 */
+      border: 5px solid var(--primary-color);
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    #play-button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #play-button:hover {
+      background-color: var(--secondary-color);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SpecialDelivery</h1>
+    <nav>
+      <a href="paul.html">Paul Quero</a>
+      <a href="juan.html">Juan Seraphin</a>
+      <a href="gabriel.html">Gabriel Michaud</a>
+    </nav>
+  </header>
+
+  <div class="highlight-box">
+    Bienvenue dans notre jeu ! Préparez-vous à une livraison pas comme les autres
+  </div>
+
+  <!-- Bouton pour démarrer le jeu -->
+  <button id="play-button">Jouer</button>
+
+  <div id="unity-container">
+    <canvas id="unity-canvas"></canvas>
+    <script>
+      document.getElementById("play-button").addEventListener("click", function() {
+        // Ouvrir la fenêtre en augmentant la hauteur
+        document.getElementById("unity-container").style.height = "calc(100vh - 100px)"; // Ajuste la hauteur selon vos besoins
+
+        // Charger et démarrer le build Unity après un léger délai
+        setTimeout(function() {
+          const buildUrl = "UnityBuild/Build";
+          const loaderUrl = buildUrl + "/build.loader.js";
+          const config = {
+            dataUrl: buildUrl + "/build.data",
+            frameworkUrl: buildUrl + "/build.framework.js",
+            codeUrl: buildUrl + "/build.wasm",
+            streamingAssetsUrl: "UnityBuild/StreamingAssets",
+            companyName: "MonJeu",
+            productName: "NomDuJeu",
+            productVersion: "1.0",
+          };
+
+          const script = document.createElement("script");
+          script.src = loaderUrl;
+          script.onload = () => {
+            createUnityInstance(document.querySelector("#unity-canvas"), config);
+          };
+          document.body.appendChild(script);
+        }, 1000); // Le délai de 1 seconde avant de charger le build
+      });
+    </script>
+  </div>
+</body>
+</html>
+
+
+
